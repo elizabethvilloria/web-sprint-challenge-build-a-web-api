@@ -12,3 +12,25 @@ I need this code, but don't know where, perhaps should make some middleware, don
 
 Pull your server into this file and start it!
 */
+
+const express = require('express')
+const app = express()
+
+app.use(express.json());
+
+app.get('/', (req, res) => {
+    res.send('Hello, world!');
+  });
+  
+
+const port = process.env.PORT || 9000;
+
+app.get('/api/hello', (req, res) => {
+    res.json({
+        message: 'API API API'
+    })
+})
+
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
