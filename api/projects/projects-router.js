@@ -68,4 +68,36 @@ router.get('/:id', (req, res) => {
     }
   });
 
+  router.delete('/:id', (req, res) => {
+    const { id } = req.params;
+  
+    projects.remove(id)
+      .then(deleted => {
+        if (deleted) {
+          res.status(204).end();
+        } else {
+          res.status(404).json({ message: 'Project not found' });
+        }
+      })
+      .catch(err => {
+        res.status(500).json({ message: 'Failed to delete project' });
+      });
+  });
+
+  router.get('/:id/actions', (req, res) => {
+    const { id } = req.params;
+  
+    projects.getProjectActions(id)
+      .then(actions => {
+        if (actions) {
+          res.json(actions);
+        } else {
+          res.status(404).json({ message: 'Project not found or no actions' });
+        }
+      })
+      .catch(err => {
+        res.status(500).json({ message: 'Failed to get actions for project' });
+      });
+  });
+  
 module.exports = router;
