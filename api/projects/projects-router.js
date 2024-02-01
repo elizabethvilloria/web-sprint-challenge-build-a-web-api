@@ -49,10 +49,9 @@ router.get('/:id', (req, res) => {
   router.put('/:id', (req, res) => {
     const { id } = req.params;
     const changes = req.body;
-  
-    // Check for required fields
-    if (!changes.name || !changes.description) {
-      res.status(400).json({ message: 'Missing project name or description' });
+    
+    if (changes.name === undefined || changes.description === undefined || changes.completed === undefined) {
+        return res.status(400).json({ message: 'Request body must contain name, description, and completed' });
     } else {
       projects.update(id, changes)
         .then(project => {
@@ -99,5 +98,5 @@ router.get('/:id', (req, res) => {
         res.status(500).json({ message: 'Failed to get actions for project' });
       });
   });
-  
+
 module.exports = router;
